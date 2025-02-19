@@ -17,6 +17,8 @@ app.use(
   })
 );
 
+app.options("*", cors());
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
