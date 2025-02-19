@@ -24,6 +24,9 @@ mongoose
   })
   .catch((err) => console.log("MongoDB Connection Error:", err));
 
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
 app.use("/api/auth", require("./routes/userRoutes"));
 app.use("/api/todos", require("./routes/todoRoutes"));
 
