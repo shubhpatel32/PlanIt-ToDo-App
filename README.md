@@ -4,8 +4,7 @@ PlanIt is a **MERN-based** task management application that helps users organize
 
 ## 🚀 Live Demo
 
-- **Live**: [PlanIt Frontend](https://planit-frontend.onrender.com/)
-- **Backend**: [PlanIt Backend](https://planit-todo-app.onrender.com/)
+- **Live**: [Link](https://planit-frontend.onrender.com/)
 
 ## 🛠️ Tech Stack
 
@@ -24,14 +23,14 @@ PlanIt-ToDo-App/
 
 ## ⚡ Features
 
-✅ User Authentication (Signup/Login)  
-✅ Create, Update, Delete, and Manage Tasks
-✅ Password reset (via current password & reset link)
-✅ Task Filtering & Searching  
-✅ Task Status Management (Active, In Progress, Completed, Expired)  
-✅ Automated Email Reminders (Cron Jobs)  
-✅ Responsive UI with Tailwind CSS  
-✅ Secure API using JWT Authentication
+- User Authentication (Signup/Login)
+- Create, Update, Delete, and Manage Tasks
+- Password Reset (via current password & reset link)
+- Task Filtering & Searching
+- Task Status Management (Active, In Progress, Completed, Expired)
+- Automated Email Reminders (Cron Jobs)
+- Responsive UI with Tailwind CSS
+- Secure API using JWT Authentication
 
 ## 📌 Installation
 
@@ -66,6 +65,12 @@ MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
 FRONTEND_URL=https://planit-frontend.onrender.com
 PORT=5000
+```
+
+Create a `.env` file in the **frontend** folder and add:
+
+```env
+VITE_API_URL=your_backend_url
 ```
 
 ## 📡 API Endpoints
