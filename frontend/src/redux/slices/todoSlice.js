@@ -15,7 +15,7 @@ export const fetchTodos = createAsyncThunk(
       const formattedTodos = response.data.map((todo) => ({
         ...todo,
         deadline: todo.deadline
-          ? moment(todo.deadline).format("Do MMM, YYYY HH:mm")
+          ? moment.utc(todo.deadline).local().format("Do MMM, YYYY HH:mm")
           : "",
       }));
 
@@ -31,9 +31,16 @@ export const addTodo = createAsyncThunk(
   async (todoData, { getState, rejectWithValue }) => {
     try {
       const token = getState().auth.token;
-      const response = await axios.post(`${API_URL}/api/todos`, todoData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const formattedDeadline = todoData.deadline
+        ? moment(todoData.deadline).utc().format()
+        : null;
+
+      const response = await axios.post(
+        `${API_URL}/api/todos`,
+        { ...todoData, deadline: formattedDeadline },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to add todo");
@@ -49,10 +56,13 @@ export const updateTodo = createAsyncThunk(
   ) => {
     try {
       const token = getState().auth.token;
-      store;
+
+      const formattedDeadline = deadline
+        ? moment(deadline).utc().format()
+        : null;
       const response = await axios.put(
         `${API_URL}/api/todos/${id}`,
-        { title, description, deadline, status },
+        { title, description, deadline: formattedDeadline, status },
         {
           headers: {
             "Content-Type": "application/json",

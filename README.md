@@ -73,7 +73,7 @@ Create a `.env` file in the **backend** folder and add:
 ```env
 MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
-FRONTEND_URL=https://planit-frontend.onrender.com
+FRONTEND_URL=your_frontend_url
 PORT=5000
 ```
 

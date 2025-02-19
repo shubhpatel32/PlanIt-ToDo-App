@@ -27,7 +27,7 @@ const Home = () => {
             </h2>
             <Link
               to="/dashboard"
-              className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
+              className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded transition-all"
             >
               Go to Dashboard
             </Link>

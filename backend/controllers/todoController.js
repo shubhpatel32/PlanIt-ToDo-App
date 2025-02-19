@@ -1,5 +1,6 @@
 const Todo = require("../models/Todo");
 const { validationResult } = require("express-validator");
+const moment = require("moment");
 
 const updateExpiredTasks = async () => {
   const now = new Date();
@@ -44,7 +45,7 @@ exports.addTodo = async (req, res) => {
     const todo = new Todo({
       title,
       description,
-      deadline,
+      deadline: deadline ? moment(deadline).utc().toDate() : null,
       status: "ACTIVE",
       userId: req.user.id,
     });
@@ -64,7 +65,8 @@ exports.updateTodo = async (req, res) => {
 
     if (title) todo.title = title;
     if (description) todo.description = description;
-    if (deadline) todo.deadline = deadline;
+    if (deadline)
+      todo.deadline = deadline ? moment(deadline).utc().toDate() : null;
     if (status) todo.status = status;
 
     await todo.save();
