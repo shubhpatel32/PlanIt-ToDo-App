@@ -29,6 +29,9 @@ const sendReminderEmail = async (email, username, task) => {
           task.description || "No description provided."
         }</p>
         <p>Please make sure to complete it on time.</p>
+        <p><a href="${
+          process.env.FRONTEND_URL
+        }/dashboard" style="color: blue; text-decoration: underline;">Go to App</a></p>
         <p>Best regards,<br>PlanIt Task Reminder</p>
       `,
     });
