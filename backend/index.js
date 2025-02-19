@@ -6,8 +6,7 @@ const cron = require("node-cron");
 const { checkTasksAndSendEmails } = require("./cron/taskReminder");
 const app = express();
 app.use(express.json());
-const cors = require("cors");
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = process.env.FRONTEND_URL;
 
 app.use(
   cors({
