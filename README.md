@@ -4,13 +4,13 @@ PlanIt is a **MERN-based** task management application that helps users organize
 
 ## 🚀 Live Demo
 
-- **Live**: [Link](https://planit-frontend.onrender.com/)
+- **Live**: [Link](https://planit-frontend-swart.vercel.app)
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React, Redux Toolkit, React Router, Tailwind CSS, Axios, React Toastify
 - **Backend**: Node.js, Express.js, MongoDB, Mongoose, JWT Authentication, bcrypt
-- **Deployment**: Render
+- **Deployment**: Backend on Render and Frontend on Vercel
 
 ## 📂 Folder Structure
 
@@ -28,9 +28,19 @@ PlanIt-ToDo-App/
 - Password Reset (via current password & reset link)
 - Task Filtering & Searching
 - Task Status Management (Active, In Progress, Completed, Expired)
-- Automated Email Reminders (Cron Jobs)
+- Automated Email Reminders
 - Responsive UI with Tailwind CSS
 - Secure API using JWT Authentication
+
+## 📸 Screenshots
+
+### 🏠 Homepage
+
+![Homepage](./frontend/public/home.png)
+
+### 📝 Task Management
+
+![Task Management](./frontend/public/dashboard.png)
 
 ## 📌 Installation
 

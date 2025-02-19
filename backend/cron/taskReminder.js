@@ -22,9 +22,9 @@ const sendReminderEmail = async (email, username, task) => {
         <p>This is a reminder that your task <strong>"${
           task.title
         }"</strong> is due soon.</p>
-        <p><strong>Deadline:</strong> ${new Date(
-          task.deadline
-        ).toLocaleString()}</p>
+        <p><strong>Deadline:</strong> ${new Date(task.deadline).toLocaleString(
+          "en-IN"
+        )}</p>
         <p><strong>Description:</strong> ${
           task.description || "No description provided."
         }</p>
