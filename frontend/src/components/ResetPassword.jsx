@@ -6,11 +6,13 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const ResetPassword = () => {
   const { token } = useParams();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       console.log("Token", token);
 
@@ -26,6 +28,8 @@ const ResetPassword = () => {
           error.response?.data?.message ||
           "Something went wrong"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,8 +50,9 @@ const ResetPassword = () => {
         <button
           type="submit"
           className="bg-blue-500 text-white p-2 rounded w-full"
+          disabled={loading}
         >
-          Reset Password
+          {loading ? "Resetting..." : "Reset Password"}
         </button>
       </form>
     </div>

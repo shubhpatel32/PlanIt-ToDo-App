@@ -67,8 +67,8 @@ const Dashboard = () => {
       </div>
 
       {loading ? (
-        <ul className="py-4 px-4 pt-8">
-          {[...Array(2)].map((_, index) => (
+        <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-4 pt-8">
+          {[...Array(4)].map((_, index) => (
             <li
               key={index}
               className="flex flex-col bg-white p-4 mb-2 shadow-md rounded-lg"

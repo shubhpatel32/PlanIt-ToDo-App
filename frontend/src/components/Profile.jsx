@@ -8,7 +8,7 @@ export default function MyProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, message, error } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const [form, setForm] = useState({ currentPassword: "", newPassword: "" });
 
   const handleChange = (e) => {
@@ -94,14 +94,14 @@ export default function MyProfile() {
           <div className="flex justify-center gap-4 mt-4">
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg transition-all hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg transition-all hover:bg-blue-700"
             >
               Reset Password
             </button>
             <button
               type="button"
               onClick={() => navigate("/dashboard")}
-              className="bg-gray-400 text-white px-4 py-2 rounded-lg transition-all hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-300"
+              className="bg-gray-400 text-white px-4 py-2 rounded-lg transition-all hover:bg-gray-500"
             >
               Back
             </button>

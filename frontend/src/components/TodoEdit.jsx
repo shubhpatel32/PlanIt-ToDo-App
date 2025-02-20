@@ -15,6 +15,7 @@ export default function TodoEdit() {
     deadline: "",
     status: "ACTIVE",
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(fetchTaskById(id)).then((action) => {
@@ -43,6 +44,8 @@ export default function TodoEdit() {
 
   const saveChanges = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
     try {
       const response = await dispatch(updateTodo({ id, ...editedTask }));
 
@@ -55,6 +58,8 @@ export default function TodoEdit() {
     } catch (error) {
       console.error("Error updating task:", error);
       toast.error("Error updating task!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -136,8 +141,9 @@ export default function TodoEdit() {
             <button
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg transition-all hover:bg-blue-700 "
+              disabled={loading}
             >
-              Save Changes
+              {loading ? "Saving" : "Save Changes"}
             </button>
             <button
               type="button"

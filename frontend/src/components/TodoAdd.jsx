@@ -10,12 +10,14 @@ export default function TodoAdd({ refreshTodos }) {
     description: "",
     deadline: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await dispatch(addTodo(task));
       await dispatch(fetchTodos());
@@ -24,6 +26,8 @@ export default function TodoAdd({ refreshTodos }) {
       navigate("/dashboard");
     } catch (error) {
       toast.error("Failed to add task!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,14 +85,15 @@ export default function TodoAdd({ refreshTodos }) {
           <div className="flex justify-center gap-4 mt-4">
             <button
               type="submit"
-              className="bg-green-600 text-white px-4 py-2 rounded-lg transition-all hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg transition-all hover:bg-green-700"
+              disabled={loading}
             >
-              Add Task
+              {loading ? "Adding" : "Add Task"}
             </button>
             <button
               type="button"
               onClick={() => navigate("/dashboard")}
-              className="bg-gray-400 text-white px-4 py-2 rounded-lg transition-all hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-300"
+              className="bg-gray-400 text-white px-4 py-2 rounded-lg transition-all hover:bg-gray-500 "
             >
               Cancel
             </button>
