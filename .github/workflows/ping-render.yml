@@ -1,0 +1,22 @@
+name: Keep Render Alive & Run Cron Jobs
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # Runs every 30 minutes
+    - cron: "0 */4 * * *" # Runs every 4 hours
+  workflow_dispatch: # Allows manual trigger if needed
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    env:
+      BACKEND_URL: ${{ vars.BACKEND_URL }}
+
+    steps:
+      - name: Wake Up Render & Trigger Cron Jobs (30 min)
+        if: github.event.schedule == '*/30 * * * *'
+        run: curl -X GET "$BACKEND_URL/api/run-cron?interval=30minutes"
+
+      - name: Wake Up Render & Trigger Cron Jobs (4 hours)
+        if: github.event.schedule == '0 */4 * * *'
+        run: curl -X GET "$BACKEND_URL/api/run-cron?interval=4hours"
