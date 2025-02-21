@@ -15,7 +15,7 @@ export const fetchTodos = createAsyncThunk(
       const formattedTodos = response.data.map((todo) => ({
         ...todo,
         deadline: todo.deadline
-          ? moment.utc(todo.deadline).local().format("Do MMM, YYYY HH:mm")
+          ? moment.utc(todo.deadline).local().format("Do MMM, YYYY hh:mm A")
           : "",
       }));
 
