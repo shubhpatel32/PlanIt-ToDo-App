@@ -11,8 +11,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendReminderEmail = async (email, username, task) => {
-  console.log(`📧 Sending reminder email to: ${email} for task: ${task.title}`);
+const sendReminderEmail = async (email, username, task, timeLeft) => {
+  console.log(
+    `📧 Sending ${timeLeft} reminder email to: ${email} for task: ${task.title}`
+  );
 
   try {
     const localDeadline = moment(task.deadline)
@@ -24,16 +26,18 @@ const sendReminderEmail = async (email, username, task) => {
       to: email,
       subject: `Reminder: Your task "${
         task.title
-      }" is expiring soon! (${Date.now()})`,
+      }" is due in ${timeLeft}! (${Date.now()})`,
       html: `
         <p>Hi <strong>${username}</strong>,</p>
         <p>This is a reminder that your task <strong>"${
           task.title
-        }"</strong> is due soon.</p>
-        <p><strong>Deadline:</strong> ${localDeadline}</p>
+        }"</strong> is due in ${timeLeft}!</p>
+        <p><strong>Title:</strong> ${task.title}</p>
         <p><strong>Description:</strong> ${
           task.description || "No description provided."
         }</p>
+        <p><strong>Deadline:</strong> ${localDeadline}</p>
+        <p><strong>Status:</strong> ${task.status}</p>
         <p>Please make sure to complete it on time.</p>
         <p><a href="${
           process.env.FRONTEND_URL
@@ -50,57 +54,46 @@ const sendReminderEmail = async (email, username, task) => {
   }
 };
 
-const checkTasksAndSendEmails = async (interval) => {
-  const nowUtc = moment.utc().toDate();
-  let timeRangeUtc;
-
-  if (interval === "4hours") {
-    timeRangeUtc = moment.utc().add(24, "hours").toDate();
-    console.log(
-      `⏳ Checking for tasks expiring within 24 hours... (${moment
-        .utc(nowUtc)
-        .format()})`
-    );
-  } else if (interval === "30minutes") {
-    timeRangeUtc = moment.utc().add(30, "minutes").toDate();
-    console.log(
-      `⏳ Checking for tasks expiring in 30 minutes... (${moment
-        .utc(nowUtc)
-        .format()})`
-    );
-  }
+const checkTasksAndSendEmails = async () => {
+  const nowUtc = moment.utc();
+  const timeIntervals = [
+    { label: "24 hours", time: nowUtc.clone().add(24, "hours") },
+    { label: "4 hours", time: nowUtc.clone().add(4, "hours") },
+    { label: "30 minutes", time: nowUtc.clone().add(30, "minutes") },
+  ];
 
   try {
-    console.log("🔍 Querying database for matching tasks...");
-    const tasks = await Todo.find({
-      deadline: { $gte: nowUtc, $lt: timeRangeUtc },
-      status: { $nin: ["EXPIRED", "COMPLETE"] },
-    }).populate("userId", "email username");
+    for (const interval of timeIntervals) {
+      console.log(`🔍 Checking for ${interval.label} reminders...`);
 
-    console.log(`📌 Found ${tasks.length} task(s) to send reminders for.`);
+      const tasks = await Todo.find({
+        deadline: {
+          $gte: interval.time.toDate(),
+          $lt: interval.time.clone().add(1, "minute").toDate(),
+        },
+        status: { $nin: ["EXPIRED", "COMPLETE"] },
+      }).populate("userId", "email username");
 
-    tasks.forEach((task) => {
-      if (task.userId?.email) {
-        console.log(
-          `📨 Preparing to send email for task: "${task.title}" (Deadline: ${task.deadline})`
-        );
-        sendReminderEmail(task.userId.email, task.userId.username, task);
-      }
-    });
+      console.log(
+        `📌 Found ${tasks.length} task(s) for ${interval.label} reminder.`
+      );
+
+      tasks.forEach((task) => {
+        if (task.userId?.email) {
+          sendReminderEmail(
+            task.userId.email,
+            task.userId.username,
+            task,
+            interval.label
+          );
+        }
+      });
+    }
   } catch (error) {
     console.error("❌ Error fetching tasks:", error);
   }
 };
 
-// Schedule cron jobs
-cron.schedule("0 */4 * * *", () => {
-  console.log("🔔 Running 4-hour reminder check...");
-  checkTasksAndSendEmails("4hours");
-});
-
-cron.schedule("*/30 * * * *", () => {
-  console.log("🔔 Running 30-minute reminder check...");
-  checkTasksAndSendEmails("30minutes");
-});
+cron.schedule("* * * * *", () => checkTasksAndSendEmails());
 
 module.exports = { checkTasksAndSendEmails };

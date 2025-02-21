@@ -8,7 +8,7 @@ const TodoSchema = new mongoose.Schema({
     enum: ["ACTIVE", "IN_PROGRESS", "COMPLETE", "EXPIRED"],
     default: "ACTIVE",
   },
-  deadline: { type: Date },
+  deadline: { type: Date, index: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 
