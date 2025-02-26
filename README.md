@@ -89,13 +89,15 @@ VITE_API_URL=your_backend_url
 | ------ | ------------------------- | --------------------------- |
 | POST   | /api/auth/signup          | User Registration           |
 | POST   | /api/auth/login           | User Login                  |
-| POST   | /api/auth/logout          | User Logout                 |
-| POST   | /api/auth/reset-password  | Request Password Reset Link |
-| POST   | /api/auth/change-password | Change Password             |
+| POST   | /api/auth/forgot-password | Request Password Reset Link |
+| POST   | /api/auth/reset-password  | Reset Password Using Link   |
+| POST   | /api/auth/update-password | Change Password Using Current|
 | GET    | /api/todos                | Get All Todos               |
 | POST   | /api/todos                | Create a New Todo           |
 | PUT    | /api/todos/:id            | Update a Todo               |
 | DELETE | /api/todos/:id            | Delete a Todo               |
+| GET    | /api/run-cron             | To Run Cron                 |
+
 
 ## 🎯 Author
 
